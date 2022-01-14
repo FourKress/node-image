@@ -1,0 +1,16 @@
+{
+  "apps": [{
+    "name": "node-image",
+    "script": "dist/main.js",
+    "watch": true,
+    "ignore_watch": [
+      "uploads"
+    ],
+    "merge_logs": true,
+    "log_date_format": "YYYY-MM-DD HH:mm:ss",
+    "min_uptime": "60s",
+    "max_restarts": 30,
+    "autorestart": true,
+    "restart_delay": 60
+  }]
+}
