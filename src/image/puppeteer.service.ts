@@ -22,14 +22,7 @@ export class PuppeteerService {
     puppeteer
       .launch({
         headless: true,
-        // args: [
-        //   '--disable-extensions',
-        //   '–disable-gpu',
-        //   '–disable-dev-shm-usage',
-        //   '–no-first-run',
-        //   '–no-zygote',
-        //   '–single-process',
-        // ],
+        args: ['–disable-setuid-sandbox', '–no-sandbox'],
       })
       .then(async (browser) => {
         this.browser = browser;
