@@ -66,6 +66,7 @@ export class PuppeteerService {
     Logger.log('图片生成成功');
 
     await this.pagePool.release(page);
-    return `data:image/jpg;base64,${imageData}`;
+    // return `data:image/jpg;base64,${imageData}`;
+    return imageData;
   }
 }
