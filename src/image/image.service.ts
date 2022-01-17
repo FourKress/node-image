@@ -12,12 +12,14 @@ export class ImageService {
   async createPicture(params) {
     const key = await this.setKey(params);
     Logger.log(JSON.stringify('-------------生成数据加密秘钥-------------'));
+
     Logger.log(JSON.stringify(key));
+
     return await this.pupService.pageScreenshot({
       key,
       viewport: {
-        width: 660,
-        height: 445,
+        width: 420,
+        height: 336,
       },
     });
   }
