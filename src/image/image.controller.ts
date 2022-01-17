@@ -8,9 +8,8 @@ export class ImageController {
   @Get('/generate')
   async test(@Query('userList') userList) {
     Logger.log('-------------请求参数 原始数据-------------');
-    // Logger.log(JSON.parse(userList));
-    // console.log(JSON.parse(userList.replace(/'/g, '')));
-
+    // TODO 处理数据
+    // Logger.log(JSON.parse(userList.replace(/'/g, '')));
     return await this.appService.createPicture(userList);
   }
 

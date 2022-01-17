@@ -57,17 +57,15 @@ export class PuppeteerService {
 
     await page.setViewport(viewport);
 
-    const path = `views/image_${encodeKey}.jpg`;
-
     const imageData = await page.screenshot({
-      path,
       fullPage: true,
       omitBackground: true,
+      encoding: 'base64',
     });
 
     Logger.log('图片生成成功');
 
     await this.pagePool.release(page);
-    return imageData;
+    return `data:image/jpg;base64,${imageData}`;
   }
 }

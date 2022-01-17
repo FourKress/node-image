@@ -12,7 +12,6 @@ export class ImageService {
   async createPicture(params) {
     const key = await this.setKey(params);
     Logger.log(JSON.stringify('-------------生成数据加密秘钥-------------'));
-
     Logger.log(JSON.stringify(key));
 
     return await this.pupService.pageScreenshot({
@@ -44,7 +43,7 @@ export class ImageService {
     this.cryptoKeys.delete(key);
     Logger.log(JSON.stringify('-------------当前数据加密秘钥-------------'));
     Logger.log(JSON.stringify(key));
-    Logger.log('-------------图片生成数据 转换后的数据-------------');
+    Logger.log('-------------图片生成的数据-------------');
     Logger.log(JSON.stringify(imageData));
     return imageData;
   }
