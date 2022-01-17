@@ -22,7 +22,7 @@ export class PuppeteerService {
     puppeteer
       .launch({
         headless: true,
-        args: ['–disable-setuid-sandbox', '–no-sandbox'],
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
       })
       .then(async (browser) => {
         this.browser = browser;
