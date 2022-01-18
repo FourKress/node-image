@@ -11,7 +11,7 @@
       font-family: PingFangSC-Light, sans-serif;
       padding: 0;
       margin: 0;
-      background-color: #f1f1f1;
+      background-color: #fff;
       width: 550px;
       height: 440px;
     }
@@ -70,9 +70,9 @@
       margin-right: 8px;
       text-align: center;
       line-height: 50px;
-      font-size: 18px;
-      color: #0092FF;
-      background-color: #F1F4F1;
+      font-size: 20px;
+      color: #fff;
+      background-color: #0092FF;
     }
   </style>
 </head>
@@ -87,7 +87,13 @@
     {{else}}
       <div class="item item-empty">
         <span class="img" class="name">11</span>
-        <span class="name name-empty">虚位以待</span>
+        {{#if row.isCancel}}
+          <span class="name name-empty">组队失败</span>
+        {{else if row.isDone}}
+          <span class="name name-empty">已结束</span>
+        {{else}}
+          <span class="name name-empty">虚位以待</span>
+        {{/if}}
       </div>
     {{/if}}
   {{/each}}
