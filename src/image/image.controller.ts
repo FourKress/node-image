@@ -8,9 +8,9 @@ export class ImageController {
   @Get('/generate')
   async test(@Query('userList') userList) {
     Logger.log('-------------请求参数 原始数据-------------');
-    // TODO 处理数据
-    // Logger.log(JSON.parse(userList.replace(/'/g, '')));
-    return await this.appService.createPicture(userList);
+    const params = JSON.parse(userList.replace(/'/g, ''));
+    Logger.log(params);
+    return await this.appService.createPicture(params);
   }
 
   @Get('/image')
