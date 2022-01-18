@@ -11,7 +11,7 @@
       font-family: PingFangSC-Light, sans-serif;
       padding: 0;
       margin: 0;
-      background-color: #fff;
+      background-color: #f1f1f1;
       width: 550px;
       height: 440px;
     }
@@ -19,17 +19,30 @@
     .warp {
       width: 550px;
       height: 440px;
-      padding: 2px 10px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
       box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      justify-items: center;
+      justify-content: space-evenly;
+      align-items: flex-start;
+      align-content: space-evenly;
     }
 
     .item {
+      width: 165px;
+      height: 50px;
+      border-radius: 50px;
+      overflow: hidden;
+      background-color: #fff;
       display: flex;
       align-items: center;
       font-size: 12px;
+      border: 1px solid #fff;
+      box-sizing: border-box;
+    }
+
+    .item-empty {
+      border-color: #0092FF;
     }
 
     .name {
@@ -44,22 +57,39 @@
       font-size: 16px;
       color: #000;
     }
+    .name-empty {
+      color: #0092FF;
+    }
+
     .img {
       display: block;
       width: 50px;
       height: 50px;
       border-radius: 50%;
+      overflow: hidden;
       margin-right: 8px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 18px;
+      color: #0092FF;
+      background-color: #F1F4F1;
     }
   </style>
 </head>
 <body>
 <div class="warp">
   {{#each data as |row|}}
-    <div class="item">
-      <img class="img" src="{{ row.avatarUrl }}" alt="">
-      <span class="name">{{ row.nickName }}</span>
-    </div>
+    {{#if row.avatarUrl}}
+      <div class="item">
+        <img class="img" src="{{ row.avatarUrl }}" alt="">
+        <span class="name">{{ row.nickName }}</span>
+      </div>
+    {{else}}
+      <div class="item item-empty">
+        <span class="img" class="name">11</span>
+        <span class="name name-empty">虚位以待</span>
+      </div>
+    {{/if}}
   {{/each}}
 </div>
 </body>
