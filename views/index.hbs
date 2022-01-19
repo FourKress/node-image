@@ -86,7 +86,7 @@
       </div>
     {{else}}
       <div class="item item-empty">
-        <span class="img" class="name">11</span>
+        <span class="img" class="name">{{ row.index }}</span>
         {{#if row.isCancel}}
           <span class="name name-empty">组队失败</span>
         {{else if row.isDone}}
