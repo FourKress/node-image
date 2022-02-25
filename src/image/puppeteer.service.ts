@@ -57,7 +57,7 @@ export class PuppeteerService {
 
     await page.setViewport(viewport);
 
-    // const path = `views/image_${encodeKey}.jpg`;
+    // const path = `static/image_${encodeKey}.jpg`;
 
     const imageData = await page.screenshot({
       // path,
