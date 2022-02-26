@@ -47,7 +47,7 @@ export class PuppeteerService {
   }
 
   async pageScreenshot(config) {
-    const { key, viewport } = config;
+    const { key, viewport, type } = config;
     const page = await this.getPageInstance();
     const encodeKey = encodeURIComponent(key);
 
@@ -57,18 +57,30 @@ export class PuppeteerService {
 
     await page.setViewport(viewport);
 
-    // const path = `static/image_${encodeKey}.jpg`;
+    const isBot = type === 'bot';
 
-    const imageData = await page.screenshot({
-      // path,
+    const path = `images/image_${Date.now()}.jpg`;
+    const screenshotConfig = {
       fullPage: true,
       omitBackground: true,
-      encoding: 'base64',
+      path: undefined,
+      encoding: undefined,
+    };
+
+    if (isBot) {
+      screenshotConfig.path = path;
+    } else {
+      screenshotConfig.encoding = 'base64';
+    }
+
+    const imageData = await page.screenshot({
+      ...screenshotConfig,
     });
 
     Logger.log('图片生成成功');
 
     await this.pagePool.release(page);
-    return imageData;
+
+    return isBot ? path : imageData;
   }
 }

@@ -9,13 +9,14 @@ export class ImageService {
     this.cryptoKeys = new Map();
   }
 
-  async createPicture(params) {
+  async createPicture(params, type = '') {
     const key = await this.setKey(params);
     Logger.log(JSON.stringify('-------------生成数据加密秘钥-------------'));
     Logger.log(JSON.stringify(key));
 
     return await this.pupService.pageScreenshot({
       key,
+      type,
       viewport: {
         width: 420,
         height: 336,
