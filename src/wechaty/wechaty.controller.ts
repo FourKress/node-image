@@ -8,6 +8,7 @@ export class WechatyController {
   @Post('/sendMiniProgram')
   @HttpCode(HttpStatus.OK)
   async sendMiniProgram(@Body() params) {
+    console.log('@@@@@@@@机器人', params);
     await this.wechatyService.sendMiniProgram(params);
   }
 }

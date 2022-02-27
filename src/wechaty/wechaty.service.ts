@@ -66,7 +66,7 @@ export class WechatyService {
       iconUrl: 'https://wx.qiuchangtong.xyz/images/logo.jpg',
       ...config,
     };
-
+    console.log('调用机器人####');
     await sendMessage('20817106223@chatroom', miniProgramPayload, true);
 
     console.log(config);
