@@ -42,7 +42,7 @@ export class WechatyService {
       });
 
     const path = await this.imageService.createPicture(userList, 'bot');
-    const imageUrl = `https://wx.qiuchangtong.xyz:4927${path}`;
+    const imageUrl = `http://wx.qiuchangtong.xyz:4927${path}`;
     Logger.log(imageUrl);
 
     const config = {
