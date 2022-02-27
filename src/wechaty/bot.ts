@@ -26,54 +26,6 @@ bot
   .on('logout', (user) => {
     console.log(user, 'logout');
   });
-// 消息监听
-// .on('message', async (message) => {
-//   const room = message.room();
-//   const from = message.talker();
-//   const text = message.text();
-//   console.log(`收到新消息: ${message}`);
-//
-//   // const allRooms = await bot.Room.findAll();
-//   // console.log(allRooms);
-//
-//   // const targetRoom = allRooms.find(
-//   //   (room) => room?.payload.id === '20817106223@chatroom',
-//   // );
-//
-//   // if (targetRoom) {
-//   //   setTimeout(async () => {
-//   //     const miniProgramPayload = {
-//   //       appid: 'wx8e63001d0409fa13',
-//   //       username: 'gh_aeefc035b7a3@app',
-//   //       title: '求队-机器人测试发送小程序',
-//   //       description: '求队-为了我们的热爱!',
-//   //       pagePath: '/client/pages/stadium/index.html',
-//   //       thumbUrl: 'https://pic.qqtn.com/up/2019-9/15690311636958128.jpg',
-//   //       iconUrl: 'https://wx.qiuchangtong.xyz/images/logo.jpg',
-//   //     };
-//   //     const miniProgram = new MiniProgram(miniProgramPayload);
-//   //     await targetRoom.say(miniProgram);
-//   //   }, 5000);
-//   // }
-//
-//   // if (room?.payload.id === '20817106223@chatroom') {
-//   //   console.log(room, room?.payload.id, from, text);
-//   //
-//   //   if (text === '机器人小程序') {
-//   //     const miniProgramPayload = {
-//   //       appid: 'wx8e63001d0409fa13',
-//   //       username: 'gh_aeefc035b7a3@app',
-//   //       title: '求队-机器人测试发送小程序',
-//   //       description: '求队-为了我们的热爱!',
-//   //       pagePath: '/client/pages/stadium/index.html',
-//   //       thumbUrl: 'https://pic.qqtn.com/up/2019-9/15690311636958128.jpg',
-//   //       iconUrl: 'https://wx.qiuchangtong.xyz/images/logo.jpg',
-//   //     };
-//   //     const miniProgram = new MiniProgram(miniProgramPayload);
-//   //     await room.say(miniProgram);
-//   //   }
-//   // }
-// });
 
 export const wechatyBot = bot;
 

@@ -48,7 +48,7 @@ export class WechatyService {
       });
 
     const path = await this.imageService.createPicture(userList, 'bot');
-    // const imageUrl = `https://wx.qiuchangtong.xyz:4927${path}`;
+    const imageUrl = `https://wx.qiuchangtong.xyz:4927${path}`;
 
     const config = {
       title: `${stadiumId.name}/${spaceId.name}/${runDate.substring(
@@ -56,8 +56,7 @@ export class WechatyService {
         10,
       )} ${startAt}-${endAt}`,
       pagePath: `/client/pages/stadium/index.html?stadiumId=${stadiumId.id}&runDate=${runDate}&spaceId=${spaceId.id}&matchId=${matchId.id}`,
-      // thumbUrl: imageUrl,
-      thumbUrl: 'https://pic.qqtn.com/up/2019-9/15690311636958128.jpg',
+      thumbUrl: imageUrl,
     };
 
     const miniProgramPayload = {
@@ -75,11 +74,8 @@ export class WechatyService {
 
   async getMemberList(matchId) {
     const res = await lastValueFrom(
-      // this.httpService.get(
-      //   `https://wx.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
-      // ),
       this.httpService.get(
-        `http://127.0.0.1:3000/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
+        `https://wx.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
       ),
     );
     return res.data?.data || [];
