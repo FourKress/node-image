@@ -7,5 +7,6 @@ import { PuppeteerService } from './puppeteer.service';
   imports: [],
   controllers: [ImageController],
   providers: [ImageService, PuppeteerService],
+  exports: [ImageService],
 })
 export class ImageModule {}

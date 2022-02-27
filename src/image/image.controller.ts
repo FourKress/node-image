@@ -1,29 +1,39 @@
-import { Controller, Get, Query, Render, Logger } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  HttpCode,
+  HttpStatus,
+  Query,
+  Body,
+  Render,
+  Logger,
+} from '@nestjs/common';
 import { ImageService } from './image.service';
 
 @Controller('registry')
 export class ImageController {
-  constructor(private readonly appService: ImageService) {}
+  constructor(private readonly imageService: ImageService) {}
 
-  @Get('/generate')
-  async generate(@Query('userList') userList) {
-    Logger.log('-------------请求参数 原始数据-------------');
-    const params = JSON.parse(userList.replace(/'/g, ''));
-    Logger.log(params);
-    return await this.appService.createPicture(params);
+  @Post('/generate')
+  @HttpCode(HttpStatus.OK)
+  async generate(@Body() userList) {
+    Logger.log('-------------分享请求参数 原始数据-------------');
+    Logger.log(userList);
+    return await this.imageService.createPicture(userList);
   }
 
-  @Get('/botGenerate')
-  async botGenerate(@Query('userList') userList) {
-    Logger.log('-------------请求参数 原始数据-------------');
-    const params = JSON.parse(userList.replace(/'/g, ''));
-    Logger.log(params);
-    return await this.appService.createPicture(params, 'bot');
+  @Post('/botGenerate')
+  @HttpCode(HttpStatus.OK)
+  async botGenerate(@Body() userList) {
+    Logger.log('-------------机器人分享请求参数 原始数据-------------');
+    Logger.log(userList);
+    return await this.imageService.createPicture(userList, 'bot');
   }
 
   @Get('/image')
   @Render('index')
   async tablePage(@Query('key') key) {
-    return { data: await this.appService.getImageData(key) };
+    return { data: await this.imageService.getImageData(key) };
   }
 }

@@ -59,7 +59,7 @@ export class PuppeteerService {
 
     const isBot = type === 'bot';
 
-    const path = `images/image_${Date.now()}.jpg`;
+    const path = `/image_${Date.now()}.jpg`;
     const screenshotConfig = {
       fullPage: true,
       omitBackground: true,
@@ -68,7 +68,7 @@ export class PuppeteerService {
     };
 
     if (isBot) {
-      screenshotConfig.path = path;
+      screenshotConfig.path = `images/${path}`;
     } else {
       screenshotConfig.encoding = 'base64';
     }
