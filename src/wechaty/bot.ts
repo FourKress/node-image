@@ -1,5 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { Wechaty, MiniProgram } = require('wechaty');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { PuppetPadlocal } = require('wechaty-puppet-padlocal');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const QrcodeTerminal = require('qrcode-terminal');
 
 const bot = new Wechaty({
@@ -16,7 +19,7 @@ bot
         qrcode,
       )}`,
     );
-    QrcodeTerminal.generate(qrcode);
+    // QrcodeTerminal.generate(qrcode);
   })
   // 登录监听
   .on('login', (user) => {

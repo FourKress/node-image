@@ -12,14 +12,8 @@ export class WechatyService {
 
   async sendMiniProgram(params) {
     const { stadiumId, spaceId, matchId } = params;
-    const {
-      selectPeople,
-      minPeople,
-      totalPeople,
-      runDate,
-      startAt,
-      endAt,
-    } = matchId;
+    const { selectPeople, minPeople, totalPeople, runDate, startAt, endAt } =
+      matchId;
 
     const count = selectPeople >= minPeople ? totalPeople : minPeople;
     const memberList: any = await this.getMemberList(matchId.id);
@@ -66,10 +60,8 @@ export class WechatyService {
       iconUrl: 'https://wx.qiuchangtong.xyz/images/logo.jpg',
       ...config,
     };
-    console.log('调用机器人####');
+    console.log(miniProgramPayload);
     await sendMessage('20817106223@chatroom', miniProgramPayload, true);
-
-    console.log(config);
   }
 
   async getMemberList(matchId) {
