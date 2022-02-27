@@ -1,4 +1,4 @@
-import { Injectable, HttpService } from '@nestjs/common';
+import { Injectable, HttpService, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { ImageService } from '../image/image.service';
 import { sendMessage } from './bot';
@@ -43,6 +43,7 @@ export class WechatyService {
 
     const path = await this.imageService.createPicture(userList, 'bot');
     const imageUrl = `https://wx.qiuchangtong.xyz:4927${path}`;
+    Logger.log(imageUrl);
 
     const config = {
       title: `${stadiumId.name}/${spaceId.name}/${runDate.substring(
@@ -60,7 +61,7 @@ export class WechatyService {
       iconUrl: 'https://wx.qiuchangtong.xyz/images/logo.jpg',
       ...config,
     };
-    console.log(miniProgramPayload);
+    Logger.log(miniProgramPayload);
     await sendMessage('20817106223@chatroom', miniProgramPayload, true);
   }
 

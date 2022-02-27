@@ -19,7 +19,7 @@ bot
         qrcode,
       )}`,
     );
-    // QrcodeTerminal.generate(qrcode);
+    QrcodeTerminal.generate(qrcode);
   })
   // 登录监听
   .on('login', (user) => {
