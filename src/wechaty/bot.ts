@@ -43,7 +43,7 @@ bot
     );
     try {
       await lastValueFrom(
-        httpService.post('http://localhost:3000/api/wxGroup/add', {
+        httpService.post('http://localhost:9000/api/wxGroup/add', {
           wxGroupId: room.id,
           wxGroupName: room?.payload?.topic,
         }),
