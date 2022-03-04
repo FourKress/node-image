@@ -4,10 +4,14 @@ const { Wechaty, MiniProgram } = require('wechaty');
 const { PuppetPadlocal } = require('wechaty-puppet-padlocal');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const QrcodeTerminal = require('qrcode-terminal');
+import { HttpService } from '@nestjs/common';
+import { lastValueFrom } from 'rxjs';
+
+const httpService = new HttpService();
 
 const bot = new Wechaty({
   puppet: new PuppetPadlocal({
-    token: 'puppet_padlocal_e4e2f88a223949048f7fe88f8576745b',
+    token: 'puppet_padlocal_6c3f1760795a439999a450e13fe3b01a',
   }),
 });
 
@@ -28,11 +32,42 @@ bot
   // 退出监听
   .on('logout', (user) => {
     console.log(user, 'logout');
+  })
+  // 加入房间
+  .on('room-join', async (room, inviteeList, inviter, date) => {
+    console.log(room, room?.id, inviteeList, inviter, date);
+    console.info(
+      `on room join: ${room.toString()}, inviteeList: ${inviteeList.map(
+        (i) => i.id,
+      )}, inviter: ${inviter.id}, ${date}`,
+    );
+    try {
+      await lastValueFrom(
+        httpService.post('http://localhost:3000/api/wxGroup/add', {
+          wxGroupId: room.id,
+          wxGroupName: room?.payload?.topic,
+        }),
+      );
+    } catch (e) {
+      console.log('http请求', e);
+    }
   });
+// 消息监听
+// .on('message', async (message) => {
+//   try {
+//     const room = message.room();
+//     const from = message.talker();
+//     const text = message.text();
+//     console.log(`收到新消息: ${message}`);
+//     console.log(room, room?.id, from, text);
+//   } catch (e) {
+//     console.log('@@@@', e);
+//   }
+// });
 
 export const wechatyBot = bot;
 
-export const sendMessage = async (toUserId, payload, isMini) => {
+export const sendMessage = async (toUserId, payload, isMini = false) => {
   const toContact = await bot.Room.load(toUserId);
   let content = payload;
   if (isMini) {
