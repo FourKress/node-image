@@ -11,7 +11,7 @@ export class WechatyService {
   ) {}
 
   async sendMiniProgram(params) {
-    const { stadiumId, spaceId, matchId } = params;
+    const { stadiumId, spaceId, matchId, wxGroupId } = params;
     const { selectPeople, minPeople, totalPeople, runDate, startAt, endAt } =
       matchId;
 
@@ -62,7 +62,7 @@ export class WechatyService {
       ...config,
     };
     Logger.log(miniProgramPayload);
-    await sendMessage('20817106223@chatroom', miniProgramPayload, true);
+    await sendMessage(wxGroupId, miniProgramPayload, true);
   }
 
   async getMemberList(matchId) {
