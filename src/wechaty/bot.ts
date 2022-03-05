@@ -33,14 +33,19 @@ bot
   .on('logout', (user) => {
     console.log(user, 'logout');
   })
+  // 通过群邀请
+  .on('room-invite', async (roomInvite) => {
+    console.log('通过群邀请');
+    await roomInvite.accept();
+  })
   // 加入房间
   .on('room-join', async (room, inviteeList, inviter, date) => {
     console.log(room, room?.id, inviteeList, inviter, date);
-    console.info(
-      `on room join: ${room.toString()}, inviteeList: ${inviteeList.map(
-        (i) => i.id,
-      )}, inviter: ${inviter.id}, ${date}`,
-    );
+    // console.info(
+    //   `on room join: ${room.toString()}, inviteeList: ${inviteeList.map(
+    //     (i) => i.id,
+    //   )}, inviter: ${inviter.id}, ${date}`,
+    // );
     try {
       await lastValueFrom(
         httpService.post('http://localhost:9000/api/wxGroup/add', {
