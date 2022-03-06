@@ -74,7 +74,9 @@ export class WechatyService {
           wxGroupId,
           `各位球友早上好！今天是${Moment()
             .format('MMM Do')
-            .replace(' ', '')}，${Moment().format('dddd')}；天气XX，气温XX-XX℃`,
+            .replace(' ', '')}，${Moment().format(
+            'dddd',
+          )}；天气${weather}，气温${temperature}℃`,
         );
         const nowItems = item.filter((d) => d.runDate === nowDay);
         const nextItems = item.filter((d) => d.runDate === nextDay);
