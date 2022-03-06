@@ -11,4 +11,11 @@ export class WechatyController {
     console.log('@@@@@@@@机器人', params);
     await this.wechatyService.sendMiniProgram(params);
   }
+
+  @Post('/autoShare')
+  @HttpCode(HttpStatus.OK)
+  async autoShare(@Body() stadiumList) {
+    console.log('@@@@@@@@每天自动分享', stadiumList);
+    await this.wechatyService.autoShare(stadiumList);
+  }
 }

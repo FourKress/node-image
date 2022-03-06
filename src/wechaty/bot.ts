@@ -23,6 +23,7 @@ bot
         qrcode,
       )}`,
     );
+    console.log(qrcode);
     QrcodeTerminal.generate(qrcode);
   })
   // 登录监听
