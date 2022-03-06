@@ -170,8 +170,8 @@ export class WechatyService {
   async getMemberList(matchId) {
     const res = await lastValueFrom(
       this.httpService.get(
-        // `https://wx.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
-        `https://wx-test.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
+        `https://wx.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
+        // `https://wx-test.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
       ),
     );
     return res.data?.data || [];
