@@ -61,6 +61,12 @@ export class WechatyService {
     await Promise.all(
       stadiumList.map(async (item) => {
         const wxGroupId = item[0].stadium.wxGroupId;
+
+        console.log(
+          `各位球友早上好！今天是${Moment().format(
+            'MMM Do',
+          )}，${Moment().format('dddd')}；天气XX，气温XX-XX℃`,
+        );
         await sendMessage(
           wxGroupId,
           `各位球友早上好！今天是${Moment().format(
@@ -75,34 +81,35 @@ export class WechatyService {
         let nextMessage = ``;
         let thirdMessage = ``;
         nowItems.forEach((d) => {
-          const base = `今日：⛳${d.startAt}-${d.endAt} / ${d.unitName}场`;
+          const base = `今日:⛳${d.startAt}-${d.endAt} / ${d.unitName}场`;
           const tips = `${base}，共报名${d.selectPeople}人，剩余${
             d.totalPeople - d.selectPeople
           }席\n`;
           toDayMessage += tips;
-          nowMessage = `${base}\n`;
+          nowMessage = `${d.stadium.name}最近场次：\n${base}\n`;
         });
 
         console.log(toDayMessage);
         await sendMessage(wxGroupId, toDayMessage);
 
         nextItems.forEach((d) => {
-          const tips = `明日：⛳${d.startAt}-${d.endAt} / ${d.unitName}场\n`;
+          const tips = `明日:⛳${d.startAt}-${d.endAt} / ${d.unitName}场\n`;
           nextMessage += tips;
         });
         thirdItems.forEach((d) => {
-          const tips = `${d.runDate.substring(5, 10)}：⛳${d.startAt}-${
+          const tips = `${d.runDate.substring(5, 10)}:⛳${d.startAt}-${
             d.endAt
-          } / ${d.unitName}场`;
+          } / ${d.unitName}场\n`;
           thirdMessage += tips;
         });
 
         console.log(nowMessage);
         console.log(nextMessage);
         console.log(thirdMessage);
+        console.log(`...更多场次请进入小程序查看`);
         await sendMessage(
           wxGroupId,
-          `${nowMessage}${nextMessage}${thirdMessage}`,
+          `${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
         );
 
         await Promise.all(
@@ -110,8 +117,9 @@ export class WechatyService {
             const userList = await this.setUserList(n.id, n);
             const path = await this.imageService.createPicture(userList, 'bot');
             const imageUrl = `http://wx.qiuchangtong.xyz:4927${path}`;
+            // const imageUrl = `http://localhost:4927${path}`;
             const config = {
-              title: `今日 / ${n.startAt}-${n.endAt} / 场\n...进入小程序可选择更多场次`,
+              title: `今日 / ${n.startAt}-${n.endAt} / ${n.unitName}场\n...进入小程序可选择更多场次`,
               pagePath: `/client/pages/stadium/index.html?stadiumId=${n.stadium.id}&runDate=${n.runDate}&spaceId=${n.space.id}&matchId=${n.id}`,
               thumbUrl: imageUrl,
               description: n.stadium.name,
@@ -162,7 +170,8 @@ export class WechatyService {
   async getMemberList(matchId) {
     const res = await lastValueFrom(
       this.httpService.get(
-        `https://wx.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
+        // `https://wx.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
+        `https://wx-test.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
       ),
     );
     return res.data?.data || [];
