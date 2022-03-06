@@ -26,7 +26,7 @@ export class WechatyService {
 
     const message = `“${
       user.nickName
-    }”已报名：\n今日：⛳${startAt}-${endAt} / ${unitName}场，共报名${selectPeople}人，剩余${
+    }”已报名：\n今日:⛳${startAt}-${endAt} / ${unitName}场，共报名${selectPeople}人，剩余${
       totalPeople - selectPeople
     }席\n`;
 
@@ -54,6 +54,7 @@ export class WechatyService {
   }
 
   async autoShare(stadiumList) {
+    const { weather, temperature } = await this.getWeather();
     const nowDay = Moment().format('YYYY-MM-DD');
     const nextDay = Moment().add(1, 'day').format('YYYY-MM-DD');
     const thirdDay = Moment().add(2, 'day').format('YYYY-MM-DD');
@@ -63,15 +64,17 @@ export class WechatyService {
         const wxGroupId = item[0].stadium.wxGroupId;
 
         console.log(
-          `各位球友早上好！今天是${Moment().format(
-            'MMM Do',
-          )}，${Moment().format('dddd')}；天气XX，气温XX-XX℃`,
+          `各位球友早上好！今天是${Moment()
+            .format('MMM Do')
+            .replace(' ', '')}，${Moment().format(
+            'dddd',
+          )}；天气${weather}，气温${temperature}℃`,
         );
         await sendMessage(
           wxGroupId,
-          `各位球友早上好！今天是${Moment().format(
-            'MMM Do',
-          )}，${Moment().format('dddd')}；天气XX，气温XX-XX℃`,
+          `各位球友早上好！今天是${Moment()
+            .format('MMM Do')
+            .replace(' ', '')}，${Moment().format('dddd')}；天气XX，气温XX-XX℃`,
         );
         const nowItems = item.filter((d) => d.runDate === nowDay);
         const nextItems = item.filter((d) => d.runDate === nextDay);
@@ -175,5 +178,15 @@ export class WechatyService {
       ),
     );
     return res.data?.data || [];
+  }
+
+  async getWeather() {
+    const res = await lastValueFrom(
+      this.httpService.get(
+        'https://restapi.amap.com/v3/weather/weatherInfo?key=a3f64614ca623dbc3cb708aa2fa6765b&city=500000&extensions=base',
+      ),
+    );
+    const data = res.data?.lives[0];
+    return data;
   }
 }
