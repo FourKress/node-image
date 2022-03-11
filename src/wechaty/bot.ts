@@ -11,7 +11,7 @@ const httpService = new HttpService();
 
 const bot = new Wechaty({
   puppet: new PuppetPadlocal({
-    token: 'puppet_padlocal_6c3f1760795a439999a450e13fe3b01a',
+    token: 'puppet_padlocal_4dce190e58b647eaa221d02319dcde56',
   }),
 });
 
