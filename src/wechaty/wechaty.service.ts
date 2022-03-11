@@ -61,6 +61,8 @@ export class WechatyService {
 
     await Promise.all(
       stadiumList.map(async (item) => {
+        if (!item?.length) return;
+
         const wxGroupId = item[0].stadium.wxGroupId;
 
         console.log(
