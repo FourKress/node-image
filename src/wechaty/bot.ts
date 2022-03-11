@@ -42,17 +42,33 @@ bot
   // 加入房间
   .on('room-join', async (room, inviteeList, inviter, date) => {
     console.log(room, room?.id, inviteeList, inviter, date);
-    // console.info(
-    //   `on room join: ${room.toString()}, inviteeList: ${inviteeList.map(
-    //     (i) => i.id,
-    //   )}, inviter: ${inviter.id}, ${date}`,
-    // );
     try {
       await lastValueFrom(
         httpService.post('http://localhost:9000/api/wxGroup/add', {
           wxGroupId: room.id,
           wxGroupName: room?.payload?.topic,
         }),
+      );
+    } catch (e) {
+      console.log('http请求', e);
+    }
+  })
+  // 监听群名称编号
+  .on('room-topic', async (room, newTopic, oldTopic, changer, date) => {
+    console.log(
+      `on room topic: ${room.toString()}, ${
+        room.id
+      }, ${newTopic}, ${oldTopic}, ${changer.toString()}, ${date}`,
+    );
+    try {
+      await lastValueFrom(
+        httpService.post(
+          'http://localhost:9000/api/stadium/modifyWxGroupName',
+          {
+            wxGroupId: room.id,
+            wxGroupName: newTopic,
+          },
+        ),
       );
     } catch (e) {
       console.log('http请求', e);
