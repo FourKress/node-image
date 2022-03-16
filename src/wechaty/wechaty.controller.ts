@@ -18,4 +18,11 @@ export class WechatyController {
     console.log('@@@@@@@@每天自动分享', stadiumList);
     await this.wechatyService.autoShare(stadiumList);
   }
+
+  @Post('/appleForBoss')
+  @HttpCode(HttpStatus.OK)
+  async appleForBoss(@Body() stadiumList) {
+    console.log('@@@@@@@@每天自动分享', stadiumList);
+    await this.wechatyService.appleForBoss(stadiumList);
+  }
 }

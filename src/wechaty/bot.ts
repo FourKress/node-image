@@ -98,3 +98,10 @@ export const sendMessage = async (toUserId, payload, isMini = false) => {
   const message = await toContact.say(content);
   return message;
 };
+
+export const appleForBossNotice = async (payload) => {
+  const contact = await bot.Contact.load('wxid_xxx');
+  const toContact = await bot.Room.load('20817106223@chatroom');
+  const message = await toContact.say(payload, contact);
+  return message;
+};

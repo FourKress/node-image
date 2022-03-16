@@ -1,7 +1,7 @@
 import { Injectable, HttpService, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { ImageService } from '../image/image.service';
-import { sendMessage } from './bot';
+import { sendMessage, appleForBossNotice } from './bot';
 
 import * as Moment from 'moment';
 
@@ -142,6 +142,13 @@ export class WechatyService {
           }),
         );
       }),
+    );
+  }
+
+  async appleForBoss(user) {
+    const { nickName, phoneNum } = user;
+    await appleForBossNotice(
+      `"${nickName}"申请成功场主，联系电话：${phoneNum}, 请赶快处理。`,
     );
   }
 
