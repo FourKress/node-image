@@ -95,7 +95,7 @@ export class WechatyService {
             d.totalPeople - d.selectPeople
           }席\n`;
           toDayMessage += tips;
-          nowMessage = `${d.stadium.name}最近场次：\n${base}\n`;
+          nowMessage += `${d.stadium.name}最近场次：\n${base}\n`;
         });
 
         console.log(toDayMessage);
