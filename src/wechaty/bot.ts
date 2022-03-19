@@ -9,7 +9,10 @@ import { lastValueFrom } from 'rxjs';
 
 const httpService = new HttpService();
 
+const timer = Date.now();
+
 const bot = new Wechaty({
+  name: '动起手来',
   puppet: new PuppetPadlocal({
     token: 'puppet_padlocal_482484bc4a244531a2d692f1a17bbcef',
   }),
@@ -33,6 +36,12 @@ bot
   // 退出监听
   .on('logout', (user) => {
     console.log(user, 'logout');
+    if (Date.now() - timer < 1000 * 10) {
+      console.log('重启失败');
+      return;
+    }
+    console.log('开始重启');
+    bot.start();
   })
   // 通过群邀请
   .on('room-invite', async (roomInvite) => {
