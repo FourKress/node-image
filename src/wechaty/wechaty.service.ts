@@ -95,7 +95,9 @@ export class WechatyService {
             d.totalPeople - d.selectPeople
           }席\n`;
           toDayMessage += tips;
-          nowMessage += `${d.stadium.name}最近场次：\n${base}\n`;
+          nowMessage += nowMessage
+            ? `${base}\n`
+            : `${d.stadium.name}最近场次：\n${base}\n`;
         });
 
         console.log(toDayMessage);
@@ -112,10 +114,9 @@ export class WechatyService {
           thirdMessage += tips;
         });
 
-        console.log(nowMessage);
-        console.log(nextMessage);
-        console.log(thirdMessage);
-        console.log(`...更多场次请进入小程序查看`);
+        console.log(
+          `${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
+        );
         await sendMessage(
           wxGroupId,
           `${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
