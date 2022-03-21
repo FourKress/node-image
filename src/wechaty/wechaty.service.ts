@@ -161,6 +161,13 @@ export class WechatyService {
     );
   }
 
+  async refundNotice(user) {
+    const { nickName, phoneNum } = user;
+    await appleForBossNotice(
+      `"${nickName}"申请成功场主，联系电话：${phoneNum}，请赶快处理。`,
+    );
+  }
+
   async setUserList(matchId, info) {
     const count =
       info.selectPeople >= info.minPeople ? info.totalPeople : info.minPeople;

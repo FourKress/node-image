@@ -22,7 +22,14 @@ export class WechatyController {
   @Post('/appleForBoss')
   @HttpCode(HttpStatus.OK)
   async appleForBoss(@Body() stadiumList) {
-    console.log('@@@@@@@@每天自动分享', stadiumList);
+    console.log('@@@@@申请场主', stadiumList);
     await this.wechatyService.appleForBoss(stadiumList);
+  }
+
+  @Post('/refundNotice')
+  @HttpCode(HttpStatus.OK)
+  async refundNotice(@Body() stadiumList) {
+    console.log('@@@@@@@@退款通知', stadiumList);
+    await this.wechatyService.refundNotice(stadiumList);
   }
 }
