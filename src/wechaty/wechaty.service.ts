@@ -157,7 +157,7 @@ export class WechatyService {
   async appleForBoss(user) {
     const { nickName, phoneNum } = user;
     await appleForBossNotice(
-      `"${nickName}"申请成功场主，联系电话：${phoneNum}, 请赶快处理。`,
+      `"${nickName}"申请成功场主，联系电话：${phoneNum}，请赶快处理。`,
     );
   }
 
