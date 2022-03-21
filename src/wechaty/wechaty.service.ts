@@ -66,6 +66,7 @@ export class WechatyService {
         if (!item?.length) return;
 
         const wxGroupId = item[0].stadium.wxGroupId;
+        const stadiumName = item[0].stadium.name;
 
         console.log(
           `各位球友早上好！今天是${Moment()
@@ -95,13 +96,13 @@ export class WechatyService {
             d.totalPeople - d.selectPeople
           }席\n`;
           toDayMessage += tips;
-          nowMessage += nowMessage
-            ? `${base}\n`
-            : `${d.stadium.name}最近场次：\n${base}\n`;
+          nowMessage += `${base}\n`;
         });
 
         console.log(toDayMessage);
-        await sendMessage(wxGroupId, toDayMessage);
+        if (toDayMessage) {
+          await sendMessage(wxGroupId, toDayMessage);
+        }
 
         nextItems.forEach((d) => {
           const tips = `明日:⛳${d.startAt}-${d.endAt} / ${d.unitName}场\n`;
@@ -115,33 +116,40 @@ export class WechatyService {
         });
 
         console.log(
-          `${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
+          `${stadiumName}最近场次：\n${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
         );
-        await sendMessage(
-          wxGroupId,
-          `${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
-        );
+        if (nowMessage || nextMessage || thirdMessage) {
+          await sendMessage(
+            wxGroupId,
+            `${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
+          );
+        }
 
-        await Promise.all(
-          nowItems.map(async (n) => {
-            const userList = await this.setUserList(n.id, n);
-            const path = await this.imageService.createPicture(userList, 'bot');
-            const imageUrl = `http://wx.qiuchangtong.xyz:4927${path}`;
-            // const imageUrl = `http://localhost:4927${path}`;
-            const config = {
-              title: `今日 / ${n.startAt}-${n.endAt} / ${n.unitName}场\n...进入小程序可选择更多场次`,
-              pagePath: `/client/pages/stadium/index.html?stadiumId=${n.stadium.id}&runDate=${n.runDate}&spaceId=${n.space.id}&matchId=${n.id}`,
-              thumbUrl: imageUrl,
-              description: n.stadium.name,
-            };
-            const miniProgramPayload = {
-              ...baseMiniProgramPayload,
-              ...config,
-            };
-            Logger.log(miniProgramPayload);
-            await sendMessage(wxGroupId, miniProgramPayload, true);
-          }),
-        );
+        if (nowItems?.length) {
+          await Promise.all(
+            nowItems.map(async (n) => {
+              const userList = await this.setUserList(n.id, n);
+              const path = await this.imageService.createPicture(
+                userList,
+                'bot',
+              );
+              const imageUrl = `http://wx.qiuchangtong.xyz:4927${path}`;
+              // const imageUrl = `http://localhost:4927${path}`;
+              const config = {
+                title: `今日 / ${n.startAt}-${n.endAt} / ${n.unitName}场\n...进入小程序可选择更多场次`,
+                pagePath: `/client/pages/stadium/index.html?stadiumId=${n.stadium.id}&runDate=${n.runDate}&spaceId=${n.space.id}&matchId=${n.id}`,
+                thumbUrl: imageUrl,
+                description: stadiumName,
+              };
+              const miniProgramPayload = {
+                ...baseMiniProgramPayload,
+                ...config,
+              };
+              Logger.log(miniProgramPayload);
+              await sendMessage(wxGroupId, miniProgramPayload, true);
+            }),
+          );
+        }
       }),
     );
   }
