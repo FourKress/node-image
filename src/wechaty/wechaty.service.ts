@@ -121,7 +121,7 @@ export class WechatyService {
         if (nowMessage || nextMessage || thirdMessage) {
           await sendMessage(
             wxGroupId,
-            `${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
+            `${stadiumName}最近场次：\n${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
           );
         }
 
