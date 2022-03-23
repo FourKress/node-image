@@ -81,7 +81,11 @@
   {{#each data as |row|}}
     {{#if row.nickName}}
       <div class="item">
-        <img class="img" src="{{ row.avatarUrl }}" alt="">
+        {{#if row.avatarUrl}}
+          <img class="img" src="{{ row.avatarUrl }}" alt="">
+        {{else}}
+          <span class="img"></span>
+        {{/if}}
         <span class="name">{{ row.nickName }}</span>
       </div>
     {{else}}
