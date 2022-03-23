@@ -161,6 +161,19 @@ export class WechatyService {
     );
   }
 
+  async refundNotice(params) {
+    const { matchId, wxGroupId, user, unitName } = params;
+    const { runDate, startAt, endAt, selectPeople, totalPeople } = matchId;
+    const isNowDay = Moment().format('YYYY-MM-DD') === runDate;
+    const message = `“${user.nickName}”已取消报名：\n${
+      isNowDay ? '今日' : runDate.substring(6, 10)
+    }:⛳${startAt}-${endAt} / ${unitName}场，共报名${selectPeople}人，剩余${
+      totalPeople - selectPeople
+    }席\n`;
+
+    await sendMessage(wxGroupId, message);
+  }
+
   async setUserList(matchId, info) {
     const count =
       info.selectPeople >= info.minPeople ? info.totalPeople : info.minPeople;
