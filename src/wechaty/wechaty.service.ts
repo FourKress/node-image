@@ -25,7 +25,7 @@ export class WechatyService {
     const { runDate, startAt, endAt, selectPeople, totalPeople } = matchId;
     const isNowDay = Moment().format('YYYY-MM-DD') === runDate;
     const message = `“${user.nickName}”已报名：\n${
-      isNowDay ? '今日' : runDate.substring(6, 10)
+      isNowDay ? '今日' : runDate.substring(5, 10)
     }:⛳${startAt}-${endAt} / ${unitName}场，共报名${selectPeople}人，剩余${
       totalPeople - selectPeople
     }席\n`;
@@ -39,7 +39,7 @@ export class WechatyService {
 
     const config = {
       title: `${
-        isNowDay ? '今日' : runDate.substring(6, 10)
+        isNowDay ? '今日' : runDate.substring(5, 10)
       } / ${startAt}-${endAt} / ${unitName}场\n...进入小程序可选择更多场次`,
       pagePath: `/client/pages/stadium/index.html?stadiumId=${stadiumId.id}&runDate=${runDate}&spaceId=${spaceId.id}&matchId=${matchId.id}`,
       thumbUrl: imageUrl,
@@ -166,7 +166,7 @@ export class WechatyService {
     const { runDate, startAt, endAt, selectPeople, totalPeople } = matchId;
     const isNowDay = Moment().format('YYYY-MM-DD') === runDate;
     const message = `“${user.nickName}”已取消报名：\n${
-      isNowDay ? '今日' : runDate.substring(6, 10)
+      isNowDay ? '今日' : runDate.substring(5, 10)
     }:⛳${startAt}-${endAt} / ${unitName}场，共报名${selectPeople}人，剩余${
       totalPeople - selectPeople
     }席\n`;
