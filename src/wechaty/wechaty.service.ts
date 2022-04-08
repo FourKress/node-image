@@ -38,7 +38,7 @@ export class WechatyService {
       title: this.getMiniProgramTitle(params),
       pagePath: `/client/pages/stadium/index.html?stadiumId=${stadiumId.id}&runDate=${runDate}&spaceId=${spaceId.id}&matchId=${matchId.id}`,
       thumbUrl: imageUrl,
-      // description: stadiumId.name,
+      description: '求队',
     };
 
     const miniProgramPayload = {
