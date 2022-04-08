@@ -7,6 +7,8 @@ import * as Moment from 'moment';
 
 Moment.locale('zh-cn');
 
+const weekMap = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
 const baseMiniProgramPayload = {
   appid: 'wx8e63001d0409fa13',
   username: 'gh_aeefc035b7a3@app',
@@ -21,14 +23,9 @@ export class WechatyService {
   ) {}
 
   async sendMiniProgram(params) {
-    const { stadiumId, spaceId, matchId, wxGroupId, user, unitName } = params;
-    const { runDate, startAt, endAt, selectPeople, totalPeople } = matchId;
-    const isNowDay = Moment().format('YYYY-MM-DD') === runDate;
-    const message = `“${user.nickName}”已报名：\n${
-      isNowDay ? '今日' : runDate.substring(5, 10)
-    }:⛳${startAt}-${endAt} / ${unitName}场，共报名${selectPeople}人，剩余${
-      totalPeople - selectPeople
-    }席\n`;
+    const { stadiumId, spaceId, matchId, wxGroupId } = params;
+    const { runDate } = matchId;
+    const message = this.getNoticeTitle(params);
 
     await sendMessage(wxGroupId, message);
 
@@ -38,12 +35,10 @@ export class WechatyService {
     Logger.log(imageUrl);
 
     const config = {
-      title: `${
-        isNowDay ? '今日' : runDate.substring(5, 10)
-      } / ${startAt}-${endAt} / ${unitName}场\n...进入小程序可选择更多场次`,
+      title: this.getMiniProgramTitle(params),
       pagePath: `/client/pages/stadium/index.html?stadiumId=${stadiumId.id}&runDate=${runDate}&spaceId=${spaceId.id}&matchId=${matchId.id}`,
       thumbUrl: imageUrl,
-      description: stadiumId.name,
+      // description: stadiumId.name,
     };
 
     const miniProgramPayload = {
@@ -68,13 +63,6 @@ export class WechatyService {
         const wxGroupId = item[0].stadium.wxGroupId;
         const stadiumName = item[0].stadium.name;
 
-        console.log(
-          `各位球友早上好！今天是${Moment()
-            .format('MMM Do')
-            .replace(' ', '')}，${Moment().format(
-            'dddd',
-          )}；天气${weather}，气温${temperature}℃`,
-        );
         await sendMessage(
           wxGroupId,
           `各位球友早上好！今天是${Moment()
@@ -134,7 +122,6 @@ export class WechatyService {
                 'bot',
               );
               const imageUrl = `http://wx.qiuchangtong.xyz:4927${path}`;
-              // const imageUrl = `http://localhost:4927${path}`;
               const config = {
                 title: `今日 / ${n.startAt}-${n.endAt} / ${n.unitName}场\n...进入小程序可选择更多场次`,
                 pagePath: `/client/pages/stadium/index.html?stadiumId=${n.stadium.id}&runDate=${n.runDate}&spaceId=${n.space.id}&matchId=${n.id}`,
@@ -162,15 +149,8 @@ export class WechatyService {
   }
 
   async refundNotice(params) {
-    const { matchId, wxGroupId, user, unitName } = params;
-    const { runDate, startAt, endAt, selectPeople, totalPeople } = matchId;
-    const isNowDay = Moment().format('YYYY-MM-DD') === runDate;
-    const message = `“${user.nickName}”已取消报名：\n${
-      isNowDay ? '今日' : runDate.substring(5, 10)
-    }:⛳${startAt}-${endAt} / ${unitName}场，共报名${selectPeople}人，剩余${
-      totalPeople - selectPeople
-    }席\n`;
-
+    const { wxGroupId } = params;
+    const message = this.getNoticeTitle(params, true);
     await sendMessage(wxGroupId, message);
   }
 
@@ -209,7 +189,6 @@ export class WechatyService {
     const res = await lastValueFrom(
       this.httpService.get(
         `https://wx.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
-        // `https://wx-test.qiuchangtong.xyz/api/userRMatch/findAllByMatchId?matchId=${matchId}`,
       ),
     );
     return res.data?.data || [];
@@ -223,5 +202,31 @@ export class WechatyService {
     );
     const data = res.data?.lives[0];
     return data;
+  }
+
+  getDateStr(runDate) {
+    const isNowDay = Moment().format('YYYY-MM-DD') === runDate;
+    return `${isNowDay ? '今日' : runDate.substring(5, 10)}(${
+      weekMap[Moment(runDate).day()]
+    })`;
+  }
+
+  getNoticeTitle(params, isRefund = false) {
+    const { spaceId, matchId, user } = params;
+    const { runDate, startAt, endAt, selectPeople, totalPeople } = matchId;
+
+    return `"${user.nickName}"已${
+      isRefund ? '取消' : ''
+    }报名：\n${this.getDateStr(runDate)}:⛳${startAt}-${endAt} / ${
+      spaceId.name
+    }，共报名${selectPeople}人，剩余${totalPeople - selectPeople}席\n`;
+  }
+
+  getMiniProgramTitle(params) {
+    const { spaceId, matchId, stadiumId } = params;
+    const { runDate, startAt, endAt } = matchId;
+    `${this.getDateStr(runDate)} / ${startAt}-${endAt} / ${spaceId.name} / ${
+      stadiumId.name
+    }`;
   }
 }
