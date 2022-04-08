@@ -225,8 +225,8 @@ export class WechatyService {
   getMiniProgramTitle(params) {
     const { spaceId, matchId, stadiumId } = params;
     const { runDate, startAt, endAt } = matchId;
-    `${this.getDateStr(runDate)} / ${startAt}-${endAt} / ${spaceId.name} / ${
-      stadiumId.name
-    }`;
+    return `${this.getDateStr(runDate)} / ${startAt}-${endAt} / ${
+      spaceId.name
+    } / ${stadiumId.name}`;
   }
 }
