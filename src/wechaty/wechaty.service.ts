@@ -204,29 +204,51 @@ export class WechatyService {
     return data;
   }
 
+  getWeek2CN(runDate) {
+    return `(${weekMap[Moment(runDate).day()]})`;
+  }
+
   getDateStr(runDate) {
     const isNowDay = Moment().format('YYYY-MM-DD') === runDate;
-    return `${isNowDay ? '今日' : runDate.substring(5, 10)}(${
-      weekMap[Moment(runDate).day()]
-    })`;
+    return `${isNowDay ? '今日' : runDate.substring(5, 10)}${this.getWeek2CN(
+      runDate,
+    )}`;
+  }
+
+  getUserAndStatus(user, isRefund = false) {
+    return `"${user.nickName}"已${isRefund ? '取消' : ''}报名：\n`;
+  }
+
+  getDesc(stadium, space, match) {
+    const { runDate, startAt, endAt } = match;
+
+    return `${this.getDateStr(runDate)}:⛳${startAt}-${endAt} / ${
+      space.name
+    } / ${stadium.name}`;
+  }
+
+  getDateAndCount(stadium, space, match) {
+    const { selectPeople, totalPeople } = match;
+
+    return `${this.getDesc(
+      stadium,
+      space,
+      match,
+    )}\n，共报名${selectPeople}人，剩余${totalPeople - selectPeople}席`;
   }
 
   getNoticeTitle(params, isRefund = false) {
-    const { spaceId, matchId, user } = params;
-    const { runDate, startAt, endAt, selectPeople, totalPeople } = matchId;
+    const { user, spaceId, matchId, stadiumId } = params;
 
-    return `"${user.nickName}"已${
-      isRefund ? '取消' : ''
-    }报名：\n${this.getDateStr(runDate)}:⛳${startAt}-${endAt} / ${
-      spaceId.name
-    }，共报名${selectPeople}人，剩余${totalPeople - selectPeople}席\n`;
+    return `${this.getUserAndStatus(user, isRefund)}${this.getDateAndCount(
+      stadiumId,
+      spaceId,
+      matchId,
+    )}`;
   }
 
   getMiniProgramTitle(params) {
     const { spaceId, matchId, stadiumId } = params;
-    const { runDate, startAt, endAt } = matchId;
-    return `${this.getDateStr(runDate)} / ${startAt}-${endAt} / ${
-      spaceId.name
-    } / ${stadiumId.name}`;
+    return this.getDesc(stadiumId, spaceId, matchId);
   }
 }
