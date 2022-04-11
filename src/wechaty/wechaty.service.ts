@@ -78,6 +78,8 @@ export class WechatyService {
         let nowMessage = ``;
         let nextMessage = ``;
         let thirdMessage = ``;
+        let dateStr = '';
+        let sendList = [];
         nowItems.forEach((d) => {
           const base = `今日:⛳${d.startAt}-${d.endAt} / ${d.unitName}场`;
           const tips = `${base}，共报名${d.selectPeople}人，剩余${
@@ -85,6 +87,8 @@ export class WechatyService {
           }席\n`;
           toDayMessage += tips;
           nowMessage += `${base}\n`;
+          dateStr = '今日';
+          sendList = nowItems;
         });
 
         console.log(toDayMessage);
@@ -95,12 +99,20 @@ export class WechatyService {
         nextItems.forEach((d) => {
           const tips = `明日:⛳${d.startAt}-${d.endAt} / ${d.unitName}场\n`;
           nextMessage += tips;
+          if (!dateStr) {
+            dateStr = '明日';
+            sendList = nextItems;
+          }
         });
         thirdItems.forEach((d) => {
           const tips = `${d.runDate.substring(5, 10)}:⛳${d.startAt}-${
             d.endAt
           } / ${d.unitName}场\n`;
           thirdMessage += tips;
+          if (!dateStr) {
+            dateStr = d.runDate.substring(5, 10);
+            sendList = thirdItems;
+          }
         });
 
         console.log(
@@ -113,9 +125,9 @@ export class WechatyService {
           );
         }
 
-        if (nowItems?.length) {
+        if (sendList?.length) {
           await Promise.all(
-            nowItems.map(async (n) => {
+            sendList.map(async (n) => {
               const userList = await this.setUserList(n.id, n);
               const path = await this.imageService.createPicture(
                 userList,
@@ -123,7 +135,7 @@ export class WechatyService {
               );
               const imageUrl = `http://wx.qiuchangtong.xyz:4927${path}`;
               const config = {
-                title: `今日 / ${n.startAt}-${n.endAt} / ${n.unitName}场\n...进入小程序可选择更多场次`,
+                title: `${dateStr} / ${n.startAt}-${n.endAt} / ${n.unitName}场\n...进入小程序可选择更多场次`,
                 pagePath: `/client/pages/stadium/index.html?stadiumId=${n.stadium.id}&runDate=${n.runDate}&spaceId=${n.space.id}&matchId=${n.id}`,
                 thumbUrl: imageUrl,
                 description: stadiumName,
@@ -234,7 +246,7 @@ export class WechatyService {
       stadium,
       space,
       match,
-    )}\n，共报名${selectPeople}人，剩余${totalPeople - selectPeople}席`;
+    )}，\n共报名${selectPeople}人，剩余${totalPeople - selectPeople}席`;
   }
 
   getNoticeTitle(params, isRefund = false) {
