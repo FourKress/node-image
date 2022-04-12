@@ -1,4 +1,11 @@
-import { Controller, Post, Body, HttpStatus, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpStatus,
+  HttpCode,
+  Logger,
+} from '@nestjs/common';
 import { WechatyService } from './wechaty.service';
 
 @Controller('wechaty')
@@ -8,28 +15,28 @@ export class WechatyController {
   @Post('/sendMiniProgram')
   @HttpCode(HttpStatus.OK)
   async sendMiniProgram(@Body() params) {
-    console.log('@@@@@@@@机器人', params);
+    Logger.log(params, '@@@@@@@@机器人');
     await this.wechatyService.sendMiniProgram(params);
   }
 
   @Post('/autoShare')
   @HttpCode(HttpStatus.OK)
   async autoShare(@Body() stadiumList) {
-    console.log('@@@@@@@@每天自动分享', stadiumList);
+    Logger.log(JSON.stringify(stadiumList), '@@@@@@@@每天自动分享');
     await this.wechatyService.autoShare(stadiumList);
   }
 
   @Post('/appleForBoss')
   @HttpCode(HttpStatus.OK)
   async appleForBoss(@Body() stadiumList) {
-    console.log('@@@@@申请场主', stadiumList);
+    Logger.log(stadiumList, '@@@@@申请场主');
     await this.wechatyService.appleForBoss(stadiumList);
   }
 
   @Post('/refundNotice')
   @HttpCode(HttpStatus.OK)
   async refundNotice(@Body() stadiumList) {
-    console.log('@@@@@@@@退款通知', stadiumList);
+    Logger.log(stadiumList, '@@@@@@@@退款通知');
     await this.wechatyService.refundNotice(stadiumList);
   }
 }

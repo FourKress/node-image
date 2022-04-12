@@ -81,23 +81,23 @@ export class WechatyService {
         let dateStr = '';
         let sendList = [];
         nowItems.forEach((d) => {
-          const base = `今日:⛳${d.startAt}-${d.endAt} / ${d.unitName}场`;
-          const tips = `${base}，共报名${d.selectPeople}人，剩余${
-            d.totalPeople - d.selectPeople
-          }席\n`;
+          const base = this.getDesc(d.stadium, d.space, d);
+          const tips = `${this.getDateAndCount(d.stadium, d.space, d)}\n`;
           toDayMessage += tips;
           nowMessage += `${base}\n`;
           dateStr = '今日';
           sendList = nowItems;
         });
 
-        console.log(toDayMessage);
+        Logger.log(toDayMessage);
         if (toDayMessage) {
           await sendMessage(wxGroupId, toDayMessage);
         }
 
         nextItems.forEach((d) => {
-          const tips = `明日:⛳${d.startAt}-${d.endAt} / ${d.unitName}场\n`;
+          const tips = `明日${this.getWeek2CN(d.runDate)}:⛳${d.startAt}-${
+            d.endAt
+          } / ${d.space.name} / ${d.stadium.name}\n`;
           nextMessage += tips;
           if (!dateStr) {
             dateStr = '明日';
@@ -105,9 +105,7 @@ export class WechatyService {
           }
         });
         thirdItems.forEach((d) => {
-          const tips = `${d.runDate.substring(5, 10)}:⛳${d.startAt}-${
-            d.endAt
-          } / ${d.unitName}场\n`;
+          const tips = `${this.getDesc(d.stadium, d.space, d)}\n`;
           thirdMessage += tips;
           if (!dateStr) {
             dateStr = d.runDate.substring(5, 10);
@@ -115,7 +113,7 @@ export class WechatyService {
           }
         });
 
-        console.log(
+        Logger.log(
           `${stadiumName}最近场次：\n${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
         );
         if (nowMessage || nextMessage || thirdMessage) {
@@ -135,10 +133,10 @@ export class WechatyService {
               );
               const imageUrl = `http://wx.qiuchangtong.xyz:4927${path}`;
               const config = {
-                title: `${dateStr} / ${n.startAt}-${n.endAt} / ${n.unitName}场\n...进入小程序可选择更多场次`,
+                title: `${dateStr} / ${n.startAt}-${n.endAt} / ${n.space.name} / ${n.stadium.name}`,
                 pagePath: `/client/pages/stadium/index.html?stadiumId=${n.stadium.id}&runDate=${n.runDate}&spaceId=${n.space.id}&matchId=${n.id}`,
                 thumbUrl: imageUrl,
-                description: stadiumName,
+                description: '求队',
               };
               const miniProgramPayload = {
                 ...baseMiniProgramPayload,
@@ -246,7 +244,7 @@ export class WechatyService {
       stadium,
       space,
       match,
-    )}，\n共报名${selectPeople}人，剩余${totalPeople - selectPeople}席`;
+    )}\n共报名${selectPeople}人，剩余${totalPeople - selectPeople}席`;
   }
 
   getNoticeTitle(params, isRefund = false) {
