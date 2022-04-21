@@ -99,20 +99,17 @@ bot
 export const wechatyBot = bot;
 
 export const sendMessage = async (toUserId, payload, isMini = false) => {
-  // const toContact = await bot.Room.load(toUserId);
-  // let content = payload;
-  // if (isMini) {
-  //   content = new MiniProgram(payload);
-  // }
-  // const message = await toContact.say(content);
-  // return message;
-  Logger.log(payload);
+  const toContact = await bot.Room.load(toUserId);
+  let content = payload;
+  if (isMini) {
+    content = new MiniProgram(payload);
+  }
+  const message = await toContact.say(content);
+  return message;
 };
 
 export const appleForBossNotice = async (payload) => {
-  // const contact = await bot.Contact.load('wxid_xxx');
   const toContact = await bot.Room.load('20817106223@chatroom');
-  // const message = await toContact.say(payload, contact);
   const message = await toContact.say(payload);
   return message;
 };
