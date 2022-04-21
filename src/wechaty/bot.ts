@@ -115,3 +115,9 @@ export const appleForBossNotice = async (payload) => {
   const message = await toContact.say(payload);
   return message;
 };
+
+export const applyWechatyBotNotice = async (payload) => {
+  const toContact = await bot.Room.load('20817106223@chatroom');
+  const message = await toContact.say(payload);
+  return message;
+};

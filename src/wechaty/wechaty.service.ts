@@ -1,7 +1,7 @@
 import { Injectable, HttpService, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { ImageService } from '../image/image.service';
-import { sendMessage, appleForBossNotice } from './bot';
+import { sendMessage, appleForBossNotice, applyWechatyBotNotice } from './bot';
 
 import * as Moment from 'moment';
 
@@ -164,6 +164,17 @@ export class WechatyService {
     const { wxGroupId } = params;
     const message = this.getNoticeTitle(params, true);
     await sendMessage(wxGroupId, message);
+  }
+
+  async applyWechatyBot(stadium) {
+    const {
+      name,
+      phoneNum,
+      user: { nickName },
+    } = stadium;
+    await applyWechatyBotNotice(
+      `"${nickName}"申请在"${name}"场馆启用机器人，联系电话：${phoneNum}，请赶快处理。`,
+    );
   }
 
   async setUserList(matchId, info) {
