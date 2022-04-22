@@ -28,16 +28,16 @@ export class WechatyController {
 
   @Post('/appleForBoss')
   @HttpCode(HttpStatus.OK)
-  async appleForBoss(@Body() stadiumList) {
-    Logger.log(stadiumList, '@@@@@申请场主');
-    await this.wechatyService.appleForBoss(stadiumList);
+  async appleForBoss(@Body() user) {
+    Logger.log(user, '@@@@@申请场主');
+    await this.wechatyService.appleForBoss(user);
   }
 
   @Post('/refundNotice')
   @HttpCode(HttpStatus.OK)
-  async refundNotice(@Body() stadiumList) {
-    Logger.log(stadiumList, '@@@@@@@@退款通知');
-    await this.wechatyService.refundNotice(stadiumList);
+  async refundNotice(@Body() params) {
+    Logger.log(params, '@@@@@@@@退款通知');
+    await this.wechatyService.refundNotice(params);
   }
 
   @Post('/applyWechatyBot')
