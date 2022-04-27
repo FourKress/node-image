@@ -1,7 +1,7 @@
 import { Injectable, HttpService, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { ImageService } from '../image/image.service';
-import { sendMessage, appleForBossNotice, applyWechatyBotNotice } from './bot';
+import { sendMessage, baseNotice } from './bot';
 
 import * as Moment from 'moment';
 
@@ -155,8 +155,17 @@ export class WechatyService {
 
   async appleForBoss(user) {
     const { nickName, phoneNum } = user;
-    await appleForBossNotice(
+    await baseNotice(
       `"${nickName}"申请成功场主，联系电话：${phoneNum}，请赶快处理。`,
+    );
+  }
+
+  async withdrawNotice(user) {
+    const { nickName, phoneNum, withdrawAmt, withdrawStatus } = user;
+    await baseNotice(
+      `"${nickName}"提现${
+        withdrawStatus ? '成功' : '失败'
+      }，提现金额: ${withdrawAmt}, 联系电话：${phoneNum}，请知悉。`,
     );
   }
 
@@ -172,7 +181,7 @@ export class WechatyService {
       phoneNum,
       user: { nickName },
     } = stadium;
-    await applyWechatyBotNotice(
+    await baseNotice(
       `"${nickName}"申请在"${name}"场馆启用机器人，联系电话：${phoneNum}，请赶快处理。`,
     );
   }

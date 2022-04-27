@@ -46,4 +46,11 @@ export class WechatyController {
     Logger.log(stadium, '@@@@@@@申请开启机器人');
     await this.wechatyService.applyWechatyBot(stadium);
   }
+
+  @Post('/withdrawNotice')
+  @HttpCode(HttpStatus.OK)
+  async withdrawNotice(@Body() user) {
+    Logger.log(user, '@@@@@@@场主提现');
+    await this.wechatyService.withdrawNotice(user);
+  }
 }
