@@ -163,9 +163,9 @@ export class WechatyService {
   async withdrawNotice(user) {
     const { phoneNum, withdrawAmt, withdrawStatus, errCodeDes } = user;
     await baseNotice(
-      `"${user.nickName}"提现${withdrawStatus ? '成功' : '失败'}，\n${
-        !withdrawStatus && `失败原因: ${errCodeDes}\n`
-      }提现金额: ${withdrawAmt}\n, 联系电话：${phoneNum}，请知悉。`,
+      `"${user.nickName}"发起提现${withdrawStatus ? '成功' : '失败'}，\n${
+        !withdrawStatus && `失败原因: ${errCodeDes}，\n`
+      }提现金额: ${withdrawAmt}，\n联系电话：${phoneNum}，请知悉。`,
     );
   }
 
