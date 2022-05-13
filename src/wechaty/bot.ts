@@ -14,7 +14,7 @@ const timer = Date.now();
 const bot = new Wechaty({
   name: '动起手来',
   puppet: new PuppetPadlocal({
-    token: 'puppet_padlocal_8df8b6f6293e4882872e06b182524d89',
+    token: 'puppet_padlocal_2472a82954fb4545aae8b5ead244ae41',
   }),
 });
 
