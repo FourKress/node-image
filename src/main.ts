@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
-import { wechatyBot } from './wechaty/bot';
+import { wechatyBot } from './bot/bot';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -11,7 +11,7 @@ async function bootstrap() {
   app.setViewEngine('hbs');
 
   // 启动机器人
-  wechatyBot.start();
+  // wechatyBot.start();
 
   await app.listen(4927);
 }

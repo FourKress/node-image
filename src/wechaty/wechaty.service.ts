@@ -1,7 +1,7 @@
 import { Injectable, HttpService, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { ImageService } from '../image/image.service';
-import { sendMessage, baseNotice } from './bot';
+import { sendMessage, baseNotice } from '../bot/bot';
 
 import * as Moment from 'moment';
 
