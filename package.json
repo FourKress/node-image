@@ -32,6 +32,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.3.0",
+    "shelljs": "^0.8.5",
     "wechaty": "0.56.6",
     "wechaty-puppet-padlocal": "^0.2.42"
   },
