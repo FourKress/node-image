@@ -44,7 +44,7 @@ export class BotService {
       }
 
       if (exec(`git commit -m '更换token'`).code !== 0) {
-        echo('Error git commit failed 123');
+        echo('Error git commit failed');
         exit(1);
       }
 
