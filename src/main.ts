@@ -11,7 +11,7 @@ async function bootstrap() {
   app.setViewEngine('hbs');
 
   // 启动机器人
-  // wechatyBot.start();
+  wechatyBot.start();
 
   await app.listen(4927);
 }
