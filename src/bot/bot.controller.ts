@@ -17,5 +17,6 @@ export class BotController {
   async loginLink(@Body('token') token: string) {
     Logger.log('@@@@@@@@机器人登录');
     await this.botService.botStart(token);
+    return 'success';
   }
 }
