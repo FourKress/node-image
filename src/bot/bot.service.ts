@@ -49,6 +49,21 @@ export class BotService {
       // if (exec('git push').code !== 0) {
       //   echo('Error git push failed');
       // }
+
+      if (exec('pm2 stop node-image').code !== 0) {
+        echo('Error pm2 stop node-image failed');
+        exit(1);
+      }
+
+      if (exec('pm2 delete node-image').code !== 0) {
+        echo('Error pm2 delete node-image failed');
+        exit(1);
+      }
+
+      // if (exec('yarn pm2').code !== 0) {
+      //   echo('Error pm2 start node-image failed');
+      //   exit(1);
+      // }
     } catch (e) {
       console.log(e);
     }
