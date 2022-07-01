@@ -50,6 +50,10 @@ export class BotService {
         echo('Error git push failed');
       }
 
+      if (exec('yarn build').code !== 0) {
+        echo('Error yarn build failed');
+      }
+
       if (exec('pm2 restart node-image').code !== 0) {
         exit(1);
       }
