@@ -55,8 +55,9 @@ export class BotService {
       }
 
       if (exec('pm2 restart node-image').code !== 0) {
-        exit(1);
+        return exit(1);
       }
+      return true;
     } catch (e) {
       console.log(e);
     }
