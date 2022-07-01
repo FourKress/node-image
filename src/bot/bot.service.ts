@@ -6,13 +6,15 @@ import * as shell from 'shelljs';
 
 @Injectable()
 export class BotService {
+  readonly qrcode = '';
+
   async botStart(token): Promise<any> {
     if (!shell.which('git')) {
       shell.echo('Sorry, this script requires git');
       shell.exit(1);
     }
 
-    const filePath = path.join(__dirname, '../../src/bot/bot.ts');
+    const filePath = path.join(__dirname, '../../src/bot/wechatyBot.ts');
     try {
       const exec = shell.exec;
       const echo = shell.echo;

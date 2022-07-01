@@ -1,7 +1,7 @@
 import { Injectable, HttpService, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { ImageService } from '../image/image.service';
-import { sendMessage, baseNotice } from '../bot/bot';
+import { WechatyBot } from '../bot/wechatyBot';
 
 import * as Moment from 'moment';
 
@@ -20,6 +20,7 @@ export class WechatyService {
   constructor(
     private readonly httpService: HttpService,
     private readonly imageService: ImageService,
+    private readonly wechatyBot: WechatyBot,
   ) {}
 
   async sendMiniProgram(params) {
@@ -27,7 +28,7 @@ export class WechatyService {
     const { runDate } = matchId;
     const message = this.getNoticeTitle(params);
 
-    await sendMessage(wxGroupId, message);
+    await this.wechatyBot.sendMessage(wxGroupId, message);
 
     const userList = await this.setUserList(matchId.id, matchId);
     const path = await this.imageService.createPicture(userList, 'bot');
@@ -47,7 +48,7 @@ export class WechatyService {
     };
     Logger.log(miniProgramPayload);
 
-    await sendMessage(wxGroupId, miniProgramPayload, true);
+    await this.wechatyBot.sendMessage(wxGroupId, miniProgramPayload, true);
   }
 
   async autoShare(stadiumList) {
@@ -63,7 +64,7 @@ export class WechatyService {
         const wxGroupId = item[0].stadium.wxGroupId;
         const stadiumName = item[0].stadium.name;
 
-        await sendMessage(
+        await this.wechatyBot.sendMessage(
           wxGroupId,
           `各位球友早上好！今天是${Moment()
             .format('MMM Do')
@@ -93,7 +94,7 @@ export class WechatyService {
 
         console.log(toDayMessage);
         if (toDayMessage) {
-          await sendMessage(wxGroupId, toDayMessage);
+          await this.wechatyBot.sendMessage(wxGroupId, toDayMessage);
         }
 
         nextItems.forEach((d) => {
@@ -119,7 +120,7 @@ export class WechatyService {
           `${stadiumName}最近场次：\n${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
         );
         if (nowMessage || nextMessage || thirdMessage) {
-          await sendMessage(
+          await this.wechatyBot.sendMessage(
             wxGroupId,
             `${stadiumName}最近场次：\n${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
           );
@@ -145,7 +146,11 @@ export class WechatyService {
                 ...config,
               };
               Logger.log(miniProgramPayload);
-              await sendMessage(wxGroupId, miniProgramPayload, true);
+              await this.wechatyBot.sendMessage(
+                wxGroupId,
+                miniProgramPayload,
+                true,
+              );
             }),
           );
         }
@@ -155,14 +160,14 @@ export class WechatyService {
 
   async appleForBoss(user) {
     const { nickName, phoneNum } = user;
-    await baseNotice(
+    await this.wechatyBot.baseNotice(
       `"${nickName}"申请成功场主，联系电话：${phoneNum}，请赶快处理。`,
     );
   }
 
   async withdrawNotice(user) {
     const { phoneNum, withdrawAmt, withdrawStatus, errCodeDes } = user;
-    await baseNotice(
+    await this.wechatyBot.baseNotice(
       `"${user.nickName}"发起提现${withdrawStatus ? '成功' : '失败'}，\n${
         withdrawStatus ? '' : `失败原因: ${errCodeDes}，\n`
       }提现金额: ${withdrawAmt}，\n联系电话：${phoneNum}，请知悉。`,
@@ -172,7 +177,7 @@ export class WechatyService {
   async refundNotice(params) {
     const { wxGroupId } = params;
     const message = this.getNoticeTitle(params, true);
-    await sendMessage(wxGroupId, message);
+    await this.wechatyBot.sendMessage(wxGroupId, message);
   }
 
   async applyWechatyBot(stadium) {
@@ -181,7 +186,7 @@ export class WechatyService {
       phoneNum,
       user: { nickName },
     } = stadium;
-    await baseNotice(
+    await this.wechatyBot.baseNotice(
       `"${nickName}"申请在"${name}"场馆启用机器人，联系电话：${phoneNum}，请赶快处理。`,
     );
   }

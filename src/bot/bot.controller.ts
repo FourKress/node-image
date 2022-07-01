@@ -7,10 +7,16 @@ import {
   Logger,
 } from '@nestjs/common';
 import { BotService } from './bot.service';
+import { WechatyBot } from './wechatyBot';
 
 @Controller('bot')
 export class BotController {
-  constructor(private readonly botService: BotService) {}
+  constructor(
+    private readonly botService: BotService,
+    private readonly wechatyBot: WechatyBot,
+  ) {
+    this.wechatyBot.start();
+  }
 
   @Post('/start')
   @HttpCode(HttpStatus.OK)
