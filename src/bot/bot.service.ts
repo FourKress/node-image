@@ -54,10 +54,7 @@ export class BotService {
         echo('Error yarn build failed');
       }
 
-      if (exec('pm2 restart node-image').code !== 0) {
-        return exit(1);
-      }
-      return true;
+      return exec('pm2 restart node-image');
     } catch (e) {
       console.log(e);
     }
