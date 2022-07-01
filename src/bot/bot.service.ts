@@ -54,8 +54,12 @@ export class BotService {
       //   echo('Error pm2 stop node-image failed');
       //   exit(1);
       // }
-
-      if (exec('pm2 delete node-image').code !== 0) {
+      const pm2 = exec('pm2 delete node-image');
+      const { stdout, stderr } = pm2;
+      console.log(stdout);
+      console.log(stderr);
+      console.log(pm2.code);
+      if (pm2.code !== 0) {
         echo('Error pm2 delete node-image failed');
         exit(1);
       }
