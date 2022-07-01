@@ -50,10 +50,10 @@ export class BotService {
       //   echo('Error git push failed');
       // }
 
-      if (exec('pm2 stop node-image').code !== 0) {
-        echo('Error pm2 stop node-image failed');
-        exit(1);
-      }
+      // if (exec('pm2 stop node-image').code !== 0) {
+      //   echo('Error pm2 stop node-image failed');
+      //   exit(1);
+      // }
 
       if (exec('pm2 delete node-image').code !== 0) {
         echo('Error pm2 delete node-image failed');
