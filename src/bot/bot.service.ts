@@ -22,12 +22,10 @@ export class BotService {
         exit(1);
       }
 
-      // if (exec('git pull').code !== 0) {
-      //   echo('Error git pull failed');
-      //   exit(1);
-      // }
-
-      console.log(213);
+      if (exec('git pull').code !== 0) {
+        echo('Error git pull failed');
+        exit(1);
+      }
 
       const file = fs.readFileSync(filePath, 'utf-8');
       const newFile = file.replace(
