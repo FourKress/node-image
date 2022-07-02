@@ -26,12 +26,14 @@
       justify-content: space-evenly;
       align-items: flex-start;
       align-content: space-evenly;
+      position: relative;
+      padding-top: 28px;
     }
 
     .item {
       width: 165px;
-      height: 50px;
-      border-radius: 50px;
+      height: 44px;
+      border-radius: 44px;
       overflow: hidden;
       background-color: #fff;
       display: flex;
@@ -54,27 +56,27 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      font-size: 16px;
+      font-size: 14px;
       color: #000;
     }
 
     .tag {
       display: block;
       width: 43px;
-      height: 16px;
+      height: 14px;
       background: url('data:image/png;base64,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') no-repeat;
       background-size: 100% 100%;
-      margin: 4px 0 0 4px;
+      margin: 3px 0 0 3px;
     }
 
     .name {
       flex: 1;
-      max-height: 16px;
+      max-height: 14px;
       padding-left: 4px;
       width: 100px;
       max-width: 100px;
-      height: 16px;
-      line-height: 16px;
+      height: 14px;
+      line-height: 14px;
       overflow: hidden;
       text-overflow:ellipsis;
       white-space: nowrap;
@@ -85,16 +87,29 @@
 
     .img {
       display: block;
-      width: 50px;
-      height: 50px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       overflow: hidden;
       margin-right: 8px;
       text-align: center;
-      line-height: 50px;
-      font-size: 20px;
+      line-height: 44px;
+      font-size: 18px;
       color: #fff;
       background-color: #0092FF;
+    }
+
+    .stadium-name {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: red;
+      width: 100%;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      padding-top: 4px;
+      box-sizing: border-box;
     }
   </style>
 </head>
@@ -110,7 +125,7 @@
         {{/if}}
         <span class="name-wrap">
           <span class="name">{{ row.nickName }}</span>
-          {{#if row.isMonthlyCardPay}}
+          {{#if row.nickName}}
             <i class="tag"></i>
           {{/if}}
         </span>
@@ -134,6 +149,7 @@
       </div>
     {{/if}}
   {{/each}}
+  <div class="stadium-name">石桥广场五人制</div>
 </div>
 </body>
 </html>
