@@ -25,19 +25,22 @@ export class WechatyBot {
     this.bot
       // 扫码登录
       .on('scan', (qrcode, status) => {
-        console.log(
-          `Scan QR Code to login: ${status}\nhttps://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
-            qrcode,
-          )}`,
-        );
+        const qrcodeLink = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
+          qrcode,
+        )}`;
+        console.log(`Scan QR Code to login: ${status}\n${qrcodeLink}`);
+        this.botService.setQrcodeLink(qrcodeLink);
       })
       // 登录监听
       .on('login', (user) => {
+        this.botService.botLogin();
         console.log(user, 'login');
       })
       // 退出监听
       .on('logout', (user) => {
         console.log(user, 'logout');
+        this.botService.botLoginOut();
+        this.botService.removeQrcodeLink();
         if (Date.now() - this.timer < 1000 * 10) {
           console.log('重启失败');
           return;

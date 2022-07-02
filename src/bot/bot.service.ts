@@ -6,7 +6,8 @@ import * as shell from 'shelljs';
 
 @Injectable()
 export class BotService {
-  readonly qrcode = '';
+  private qrcodeLink = '';
+  private botStatus = '未登录';
 
   async botStart(token): Promise<any> {
     if (!shell.which('git')) {
@@ -60,5 +61,28 @@ export class BotService {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  async getQrcodeLink(): Promise<string> {
+    return this.qrcodeLink;
+  }
+  async getStatus(): Promise<string> {
+    return this.botStatus;
+  }
+
+  setQrcodeLink(like) {
+    this.qrcodeLink = like;
+  }
+
+  removeQrcodeLink() {
+    this.qrcodeLink = '';
+  }
+
+  botLogin() {
+    this.botStatus = '已登录';
+  }
+
+  botLoginOut() {
+    this.botStatus = '未登录';
   }
 }

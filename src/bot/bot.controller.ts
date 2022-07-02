@@ -1,6 +1,7 @@
 import {
   Controller,
   Post,
+  Get,
   Body,
   HttpStatus,
   HttpCode,
@@ -20,9 +21,21 @@ export class BotController {
 
   @Post('/start')
   @HttpCode(HttpStatus.OK)
-  async loginLink(@Body('token') token: string) {
+  async botStart(@Body('token') token: string) {
     Logger.log('@@@@@@@@机器人登录');
     await this.botService.botStart(token);
     return 'success';
+  }
+
+  @Get('/qrcodeLink')
+  async qrcodeLink() {
+    Logger.log('@@@@@@@@二维码登录链接');
+    return await this.botService.getQrcodeLink();
+  }
+
+  @Get('/status')
+  async getStatus() {
+    Logger.log('@@@@@@@@机器人状态');
+    return await this.botService.getStatus();
   }
 }
