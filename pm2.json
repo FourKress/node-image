@@ -2,7 +2,7 @@
   "apps": [{
     "name": "node-image",
     "script": "dist/main.js",
-    "watch": true,
+    "watch": false,
     "ignore_watch": [
       "uploads"
     ],
