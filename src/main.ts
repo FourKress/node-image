@@ -9,6 +9,9 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 
+  app.enableCors();
+  app.enable('trust proxy');
+
   await app.listen(4927);
 }
 
