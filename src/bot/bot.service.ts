@@ -84,5 +84,6 @@ export class BotService {
 
   botLoginOut() {
     this.botStatus = false;
+    this.removeQrcodeLink();
   }
 }

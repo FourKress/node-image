@@ -8,16 +8,14 @@ import { BotService } from './bot.service';
 import { lastValueFrom } from 'rxjs';
 
 export class WechatyBot {
-  constructor(
-    private readonly httpService: HttpService,
-    private readonly botService: BotService,
-  ) {}
+  private readonly httpService = new HttpService();
+  private readonly botService = new BotService();
 
   private readonly timer = Date.now();
   private readonly bot = new Wechaty({
     name: '动起手来',
     puppet: new PuppetPadlocal({
-      token: 'puppet_padlocal_3ccd68909d9e41ca970152df6ed0a3b3',
+      token: 'puppet_padlocal_bec2e43794684902b07ae56d496c71f8',
     }),
   });
 
@@ -40,7 +38,6 @@ export class WechatyBot {
       .on('logout', (user) => {
         console.log(user, 'logout');
         this.botService.botLoginOut();
-        this.botService.removeQrcodeLink();
         if (Date.now() - this.timer < 1000 * 10) {
           console.log('重启失败');
           return;
