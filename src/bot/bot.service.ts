@@ -2,10 +2,8 @@ import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as shell from 'shelljs';
+import * as Moment from 'moment';
 import { WechatyBot } from './wechatyBot';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Moment = require('Moment');
 
 @Injectable()
 export class BotService {
