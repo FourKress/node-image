@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
-
 import * as shell from 'shelljs';
+import { WechatyBot } from './wechatyBot';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Moment = require('Moment');
 
 @Injectable()
 export class BotService {
-  private qrcodeLink = '';
-  private botStatus = false;
+  constructor(private readonly wechatyBot: WechatyBot) {}
+
+  private expiredTime = '';
 
   async botStart(token): Promise<any> {
     if (!shell.which('git')) {
@@ -57,6 +61,8 @@ export class BotService {
         echo('Error yarn build failed');
       }
 
+      this.expiredTime = Moment().add(7, 'day').format('YYYY-MM-DD');
+
       return exec('pm2 restart node-image');
     } catch (e) {
       console.log(e);
@@ -64,26 +70,12 @@ export class BotService {
   }
 
   async getQrcodeLink(): Promise<string> {
-    return this.qrcodeLink;
+    return this.wechatyBot.getQrcodeLink();
   }
-  async getStatus(): Promise<boolean> {
-    return this.botStatus;
-  }
-
-  setQrcodeLink(like) {
-    this.qrcodeLink = like;
-  }
-
-  removeQrcodeLink() {
-    this.qrcodeLink = '';
-  }
-
-  botLogin() {
-    this.botStatus = true;
-  }
-
-  botLoginOut() {
-    this.botStatus = false;
-    this.removeQrcodeLink();
+  async getBotStatus(): Promise<any> {
+    return {
+      status: this.wechatyBot.getBotStatus(),
+      expiredTime: this.expiredTime,
+    };
   }
 }

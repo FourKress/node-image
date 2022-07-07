@@ -2,14 +2,19 @@
 const { Wechaty, MiniProgram } = require('wechaty');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { PuppetPadlocal } = require('wechaty-puppet-padlocal');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const QrcodeTerminal = require('qrcode-terminal');
 
+import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/common';
-import { BotService } from './bot.service';
 import { lastValueFrom } from 'rxjs';
 
+@Injectable()
 export class WechatyBot {
-  private readonly httpService = new HttpService();
-  private readonly botService = new BotService();
+  constructor(private readonly httpService: HttpService) {}
+
+  private qrcodeLink = '';
+  private botStatus = false;
 
   private readonly timer = Date.now();
   private readonly bot = new Wechaty({
@@ -19,6 +24,14 @@ export class WechatyBot {
     }),
   });
 
+  getQrcodeLink() {
+    return this.qrcodeLink;
+  }
+
+  getBotStatus() {
+    return this.botStatus;
+  }
+
   start() {
     this.bot
       // 扫码登录
@@ -27,17 +40,19 @@ export class WechatyBot {
           qrcode,
         )}`;
         console.log(`Scan QR Code to login: ${status}\n${qrcodeLink}`);
-        this.botService.setQrcodeLink(qrcodeLink);
+        this.qrcodeLink = qrcodeLink;
+        QrcodeTerminal.generate(qrcode);
       })
       // 登录监听
       .on('login', (user) => {
-        this.botService.botLogin();
+        this.botStatus = true;
         console.log(user, 'login');
       })
       // 退出监听
       .on('logout', (user) => {
         console.log(user, 'logout');
-        this.botService.botLoginOut();
+        this.botStatus = false;
+        this.qrcodeLink = '';
         if (Date.now() - this.timer < 1000 * 10) {
           console.log('重启失败');
           return;

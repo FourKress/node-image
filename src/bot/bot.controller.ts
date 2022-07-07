@@ -34,8 +34,8 @@ export class BotController {
   }
 
   @Get('/status')
-  async getStatus() {
+  async getBotStatus() {
     Logger.log('@@@@@@@@机器人状态');
-    return await this.botService.getStatus();
+    return await this.botService.getBotStatus();
   }
 }
