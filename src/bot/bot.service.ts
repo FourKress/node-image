@@ -67,13 +67,25 @@ export class BotService {
     }
   }
 
-  async getQrcodeLink(): Promise<string> {
-    return this.wechatyBot.getQrcodeLink();
+  async getQrcodeLink(): Promise<any> {
+    return {
+      code: 10000,
+      data: {
+        qrcodeLink: this.wechatyBot.getQrcodeLink(),
+      },
+      message: '成功',
+      success: true,
+    };
   }
   async getBotStatus(): Promise<any> {
     return {
-      status: this.wechatyBot.getBotStatus(),
-      expiredTime: this.expiredTime,
+      code: 10000,
+      data: {
+        status: this.wechatyBot.getBotStatus(),
+        expiredTime: this.expiredTime,
+      },
+      message: '成功',
+      success: true,
     };
   }
 }
