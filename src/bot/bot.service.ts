@@ -67,25 +67,18 @@ export class BotService {
     }
   }
 
+  async restart(): Promise<any> {
+    const exec = shell.exec;
+    return exec('pm2 restart node-image');
+  }
+
   async getQrcodeLink(): Promise<any> {
-    return {
-      code: 10000,
-      data: {
-        qrcodeLink: this.wechatyBot.getQrcodeLink(),
-      },
-      message: '成功',
-      success: true,
-    };
+    return this.wechatyBot.getQrcodeLink();
   }
   async getBotStatus(): Promise<any> {
     return {
-      code: 10000,
-      data: {
-        status: this.wechatyBot.getBotStatus(),
-        expiredTime: this.expiredTime,
-      },
-      message: '成功',
-      success: true,
+      status: this.wechatyBot.getBotStatus(),
+      expiredTime: this.expiredTime,
     };
   }
 }

@@ -22,20 +22,51 @@ export class BotController {
   @Post('/start')
   @HttpCode(HttpStatus.OK)
   async botStart(@Body('token') token: string) {
-    Logger.log('@@@@@@@@机器人登录');
+    Logger.log('@@@@@@@@机器人更换token');
     await this.botService.botStart(token);
-    return 'success';
+    return {
+      code: 10000,
+      data: true,
+      message: '成功',
+      success: true,
+    };
+  }
+
+  @Get('/restart')
+  async restart() {
+    Logger.log('@@@@@@@@机器人重启');
+    await this.botService.restart();
+    return {
+      code: 10000,
+      data: true,
+      message: '成功',
+      success: true,
+    };
   }
 
   @Get('/qrcodeLink')
   async qrcodeLink() {
     Logger.log('@@@@@@@@二维码登录链接');
-    return await this.botService.getQrcodeLink();
+    const qrcodeLink = await this.botService.getQrcodeLink();
+    return {
+      code: 10000,
+      data: {
+        qrcodeLink,
+      },
+      message: '成功',
+      success: true,
+    };
   }
 
   @Get('/status')
   async getBotStatus() {
     Logger.log('@@@@@@@@机器人状态');
-    return await this.botService.getBotStatus();
+    const data = await this.botService.getBotStatus();
+    return {
+      code: 10000,
+      data,
+      message: '成功',
+      success: true,
+    };
   }
 }
