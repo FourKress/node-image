@@ -69,6 +69,7 @@ export class BotService {
 
   async restart(): Promise<any> {
     const exec = shell.exec;
+    exec('yarn build');
     return exec('pm2 restart node-image');
   }
 
