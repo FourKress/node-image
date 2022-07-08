@@ -3,7 +3,7 @@ const { Wechaty, MiniProgram } = require('wechaty');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { PuppetPadlocal } = require('wechaty-puppet-padlocal');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const QrcodeTerminal = require('qrcode-terminal');
+// const QrcodeTerminal = require('qrcode-terminal');
 
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/common';
@@ -41,7 +41,7 @@ export class WechatyBot {
         )}`;
         console.log(`Scan QR Code to login: ${status}\n${qrcodeLink}`);
         this.qrcodeLink = qrcodeLink;
-        QrcodeTerminal.generate(qrcode);
+        // QrcodeTerminal.generate(qrcode);
       })
       // 登录监听
       .on('login', (user) => {
