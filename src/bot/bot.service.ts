@@ -22,7 +22,7 @@ export class BotService {
       const exec = shell.exec;
       const echo = shell.echo;
       const exit = shell.exit;
-      if (exec('git checkout bot').code !== 0) {
+      if (exec('git checkout master').code !== 0) {
         echo('Error git checkout branch failed');
         exit(1);
       }
