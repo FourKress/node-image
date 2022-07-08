@@ -103,6 +103,10 @@ export class WechatyBot {
     this.bot.start();
   }
 
+  async botLogout() {
+    await this.bot.logout();
+  }
+
   async sendMessage(toUserId, payload, isMini = false) {
     const toContact = await this.bot.Room.load(toUserId);
     let content = payload;

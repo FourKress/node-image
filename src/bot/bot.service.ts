@@ -59,6 +59,13 @@ export class BotService {
         echo('Error yarn build failed');
       }
 
+      try {
+        await this.wechatyBot.botLogout();
+      } catch (e) {
+        console.log('机器人退出登录报错');
+        console.log(e);
+      }
+
       this.expiredTime = Moment().add(7, 'day').format('YYYY-MM-DD');
 
       return exec('pm2 restart node-image');
