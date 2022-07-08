@@ -104,7 +104,7 @@ export class WechatyBot {
   }
 
   async botLogout() {
-    await this.bot.logout();
+    await this.bot?.logout();
   }
 
   async sendMessage(toUserId, payload, isMini = false) {
