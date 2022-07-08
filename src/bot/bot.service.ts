@@ -2,14 +2,11 @@ import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as shell from 'shelljs';
-import * as Moment from 'moment';
 import { WechatyBot } from './wechatyBot';
 
 @Injectable()
 export class BotService {
   constructor(private readonly wechatyBot: WechatyBot) {}
-
-  private expiredTime = '';
 
   async botStart(token): Promise<any> {
     if (!shell.which('git')) {
@@ -66,8 +63,6 @@ export class BotService {
         console.log(e);
       }
 
-      this.expiredTime = Moment().add(7, 'day').format('YYYY-MM-DD');
-
       return exec('pm2 restart node-image');
     } catch (e) {
       console.log(e);
@@ -86,7 +81,7 @@ export class BotService {
   async getBotStatus(): Promise<any> {
     return {
       status: this.wechatyBot.getBotStatus(),
-      expiredTime: this.expiredTime,
+      expiredTime: this.wechatyBot.getExpiredTime(),
     };
   }
 }

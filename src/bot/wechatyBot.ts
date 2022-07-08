@@ -8,6 +8,7 @@ const { PuppetPadlocal } = require('wechaty-puppet-padlocal');
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
+import * as Moment from 'moment';
 
 @Injectable()
 export class WechatyBot {
@@ -15,6 +16,7 @@ export class WechatyBot {
 
   private qrcodeLink = '';
   private botStatus = false;
+  private expiredTime = '';
 
   private readonly timer = Date.now();
   private readonly bot = new Wechaty({
@@ -32,6 +34,10 @@ export class WechatyBot {
     return this.botStatus;
   }
 
+  getExpiredTime() {
+    return this.expiredTime;
+  }
+
   start() {
     this.bot
       // 扫码登录
@@ -45,6 +51,7 @@ export class WechatyBot {
       })
       // 登录监听
       .on('login', (user) => {
+        this.expiredTime = Moment().add(7, 'day').format('YYYY-MM-DD');
         this.botStatus = true;
         console.log(user, 'login');
       })
