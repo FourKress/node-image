@@ -22,7 +22,7 @@ export class WechatyBot {
   private readonly bot = new Wechaty({
     name: '动起手来',
     puppet: new PuppetPadlocal({
-      token: 'puppet_padlocal_049aa47a8e6043ce9ba8b07fe4e0d48b',
+      token: 'puppet_padlocal_4d600aaa56aa4e059a0249462190acbe',
     }),
   });
 
