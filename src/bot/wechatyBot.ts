@@ -46,7 +46,8 @@ export class WechatyBot {
           qrcode,
         )}`;
         console.log(`Scan QR Code to login: ${status}\n${qrcodeLink}`);
-        this.qrcodeLink = qrcodeLink;
+        // this.qrcodeLink = qrcodeLink;
+        this.qrcodeLink = qrcode;
         // QrcodeTerminal.generate(qrcode);
       })
       // 登录监听
