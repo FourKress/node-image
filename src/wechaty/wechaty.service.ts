@@ -92,10 +92,10 @@ export class WechatyService {
           sendList = nowItems;
         });
 
-        console.log(toDayMessage);
-        if (toDayMessage) {
-          await this.wechatyBot.sendMessage(wxGroupId, toDayMessage);
-        }
+        // console.log(toDayMessage);
+        // if (toDayMessage) {
+        //   await this.wechatyBot.sendMessage(wxGroupId, toDayMessage);
+        // }
 
         nextItems.forEach((d) => {
           const tips = `明日:⛳${d.startAt}-${d.endAt} / ${d.unitName}场\n`;
@@ -116,15 +116,15 @@ export class WechatyService {
           }
         });
 
-        console.log(
-          `${stadiumName}最近场次：\n${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
-        );
-        if (nowMessage || nextMessage || thirdMessage) {
-          await this.wechatyBot.sendMessage(
-            wxGroupId,
-            `${stadiumName}最近场次：\n${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
-          );
-        }
+        // console.log(
+        //   `${stadiumName}最近场次：\n${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
+        // );
+        // if (nowMessage || nextMessage || thirdMessage) {
+        //   await this.wechatyBot.sendMessage(
+        //     wxGroupId,
+        //     `${stadiumName}最近场次：\n${nowMessage}${nextMessage}${thirdMessage}...更多场次请进入小程序查看`,
+        //   );
+        // }
 
         if (sendList?.length) {
           await Promise.all(
