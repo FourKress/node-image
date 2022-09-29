@@ -236,7 +236,7 @@ export class WechatyService {
   async getWeather() {
     const res = await lastValueFrom(
       this.httpService.get(
-        'https://restapi.amap.com/v3/weather/weatherInfo?key=a3f64614ca623dbc3cb708aa2fa6765b&city=500000&extensions=base',
+        'https://restapi.amap.com/v3/weather/weatherInfo?key=4dd3765d520cbd2760a7357a83db061f&city=500000&extensions=base',
       ),
     );
     const data = res.data?.lives[0];
