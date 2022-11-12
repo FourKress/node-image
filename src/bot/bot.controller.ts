@@ -69,4 +69,16 @@ export class BotController {
       success: true,
     };
   }
+
+  @Get('/logout')
+  async logout() {
+    Logger.log('@@@@@@@@机器人退出登录');
+    const data = await this.botService.botLogout();
+    return {
+      code: 10000,
+      data,
+      message: '成功',
+      success: true,
+    };
+  }
 }

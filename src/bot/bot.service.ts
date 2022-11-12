@@ -84,4 +84,8 @@ export class BotService {
       expiredTime: this.wechatyBot.getExpiredTime(),
     };
   }
+
+  async botLogout(): Promise<any> {
+    return this.wechatyBot.botLogout();
+  }
 }
