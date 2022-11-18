@@ -22,7 +22,7 @@ export class WechatyBot {
   private readonly bot = new Wechaty({
     name: '动起手来',
     puppet: new PuppetPadlocal({
-      token: 'puppet_padlocal_72412793e3f1484dbcaf0aaea59c5d08',
+      token: 'puppet_padlocal_bed5538cbd42416485b48a04ab1996c4',
     }),
   });
 
@@ -61,12 +61,6 @@ export class WechatyBot {
         console.log(user, 'logout');
         this.botStatus = false;
         this.qrcodeLink = '';
-        if (Date.now() - this.timer < 1000 * 10) {
-          console.log('重启失败');
-          return;
-        }
-        console.log('开始重启');
-        this.bot.start();
       })
       // 通过群邀请
       .on('room-invite', async (roomInvite) => {
